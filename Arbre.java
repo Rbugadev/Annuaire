@@ -153,11 +153,13 @@ public class Arbre implements AnnuaireGlobalVariables {
         return node;
     }
 
-    public Node rechercherNom(Node racine, String nom) {
+   /* public  Node rechercherNom(Node racine, String nom) {
+        System.out.println(racine.getStagiaire().toString()+" Nom reçu: "+nom);
         Node recherche = new Node();
         if (racine != null) {
             if (nom.compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) == 0) {
                 recherche = racine;
+                System.out.println("Aqui estoy");
             } else {
                 if (nom.compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) < 0) {
                     if (racine.getNodeGauche() != null) {
@@ -179,7 +181,7 @@ public class Arbre implements AnnuaireGlobalVariables {
             }
         }
         return recherche;
-    }
+    }*/
 
 
     @Override

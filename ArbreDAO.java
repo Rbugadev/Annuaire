@@ -29,19 +29,19 @@ public class ArbreDAO implements AnnuaireGlobalVariables {
                     contenu = "";
                     switch (y) {
                         case 0:
-                            contenu = recupererDonnee(TAILLE_NOM, recupBinaire);
+                            contenu = FichierBinaireDAO.recupererDonnee(TAILLE_NOM, recupBinaire);
                             stagiaire.setNomStagiaire(contenu);
                             break;
                         case 1:
-                            contenu = recupererDonnee(TAILLE_PRENOM, recupBinaire);
+                            contenu = FichierBinaireDAO.recupererDonnee(TAILLE_PRENOM, recupBinaire);
                             stagiaire.setPrenomStagiaire(contenu);
                             break;
                         case 2:
-                            contenu = recupererDonnee(TAILLE_DEPARTAMENT, recupBinaire);
+                            contenu = FichierBinaireDAO.recupererDonnee(TAILLE_DEPARTAMENT, recupBinaire);
                             stagiaire.setDepartementStagiare(contenu);
                             break;
                         case 3:
-                            contenu = recupererDonnee(TAILLE_PROMO, recupBinaire);
+                            contenu = FichierBinaireDAO.recupererDonnee(TAILLE_PROMO, recupBinaire);
                             stagiaire.setPromoStagiaire(contenu);
                             break;
                         case 4:
@@ -104,20 +104,6 @@ public class ArbreDAO implements AnnuaireGlobalVariables {
 
     public void afficherArbre() {
         arbre.afficherArbre();
-    }
-
-    public static String recupererDonnee(int tailleElement, RandomAccessFile recupBinaire) {
-        String donnee = "";
-        for (int x = 0; x < tailleElement; x++) {
-            try {
-                donnee += recupBinaire.readChar();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return donnee;
-
     }
 
     /*

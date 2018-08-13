@@ -70,11 +70,7 @@ public class Node {
         this.nodeId = idNode;
     }
 
-    @Override
-    public String toString() {
-        return "Node [stagiaire=" + stagiaire + ", nodePere=" + nodePere + ", nodeGauche=" + nodeGauche
-                + ", nodeDroite=" + nodeDroite + ", nodeId=" + nodeId + "]";
-    }
+
 
 
 }

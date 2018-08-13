@@ -1,5 +1,6 @@
 package fr.afcepf.ai104.dao;
 
+import fr.afcepf.ai104.entidades.Node;
 import fr.afcepf.ai104.entidades.Stagiaire;
 import fr.afcepf.ai104.sources.AnnuaireGlobalVariables;
 
@@ -62,6 +63,20 @@ public class FichierBinaireDAO implements AnnuaireGlobalVariables {
         }
     }
 
+    public static String recupererDonnee(int tailleElement, RandomAccessFile recupBinaire) {
+        String donnee = "";
+        for (int x = 0; x < tailleElement; x++) {
+            try {
+                donnee += recupBinaire.readChar();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return donnee;
+
+    }
+
     public static void afficherFichierBinaire() {
 
         try {
@@ -95,6 +110,37 @@ public class FichierBinaireDAO implements AnnuaireGlobalVariables {
             str += " ";
         }
         return str;
+    }
+
+    public Node rechercherNom(Node racine, String nom) throws FileNotFoundException {
+        fichierBinaireRecupere = new RandomAccessFile(fichierBinaire, "r");
+        System.out.println(racine.getStagiaire().toString()+" Nom reçu: "+nom);
+        Node recherche = new Node();
+        if (racine != null) {
+            if (nom.compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) == 0) {
+                recherche = racine;
+                System.out.println("Aqui estoy");
+            } else {
+                if (nom.compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) < 0) {
+                    if (racine.getNodeGauche() != null) {
+                        rechercherNom(racine.getNodeGauche(), nom);
+                    } else {
+                        if (racine.getNodeDroite() != null) {
+                            rechercherNom(racine.getNodeDroite(), nom);
+                        }
+                    }
+                } else {
+                    if (racine.getNodeDroite() != null) {
+                        rechercherNom(racine.getNodeDroite(), nom);
+                    } else {
+                        if (racine.getNodeGauche() != null) {
+                            rechercherNom(racine.getNodeGauche(), nom);
+                        }
+                    }
+                }
+            }
+        }
+        return recherche;
     }
 
     public static int getNombreStagiaires() {
