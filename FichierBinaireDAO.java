@@ -7,6 +7,7 @@ import fr.afcepf.ai104.sources.AnnuaireGlobalVariables;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FichierBinaireDAO implements AnnuaireGlobalVariables {
@@ -63,19 +64,6 @@ public class FichierBinaireDAO implements AnnuaireGlobalVariables {
         }
     }
 
-    public static String recupererDonnee(int tailleElement, RandomAccessFile recupBinaire) {
-        String donnee = "";
-        for (int x = 0; x < tailleElement; x++) {
-            try {
-                donnee += recupBinaire.readChar();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        return donnee;
-
-    }
 
     public static void afficherFichierBinaire() {
 
@@ -112,35 +100,65 @@ public class FichierBinaireDAO implements AnnuaireGlobalVariables {
         return str;
     }
 
-    public Node rechercherNom(Node racine, String nom) throws FileNotFoundException {
+    public static void rechercherNom(String nom, int position) throws IOException {
         fichierBinaireRecupere = new RandomAccessFile(fichierBinaire, "r");
-        System.out.println(racine.getStagiaire().toString()+" Nom reçu: "+nom);
-        Node recherche = new Node();
-        if (racine != null) {
-            if (nom.compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) == 0) {
-                recherche = racine;
-                System.out.println("Aqui estoy");
-            } else {
-                if (nom.compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) < 0) {
-                    if (racine.getNodeGauche() != null) {
-                        rechercherNom(racine.getNodeGauche(), nom);
-                    } else {
-                        if (racine.getNodeDroite() != null) {
-                            rechercherNom(racine.getNodeDroite(), nom);
-                        }
-                    }
+        if (nom!=null){
+            position = position-1;
+            fichierBinaireRecupere.seek(position*TAILLE_OCTETS_STAGIAIRE);
+            String nomRecupereFichierBinaire = recupererDonnee(TAILLE_NOM,fichierBinaireRecupere).trim();
+            int comparaison = nom.compareToIgnoreCase(nomRecupereFichierBinaire);
+            if (comparaison == 0){
+                Stagiaire stagiaire = recupererStagiaireFichierBinaire(position*TAILLE_OCTETS_STAGIAIRE, fichierBinaireRecupere);
+                System.out.println(stagiaire.toString());
+            } else if (comparaison < 0){
+                fichierBinaireRecupere.seek((position*TAILLE_OCTETS_STAGIAIRE)+POSITION_ID_NODE_GAUCHE);
+                int nodeGauche = fichierBinaireRecupere.readInt();
+                if (nodeGauche > 0){
+                    rechercherNom(nom, nodeGauche);
                 } else {
-                    if (racine.getNodeDroite() != null) {
-                        rechercherNom(racine.getNodeDroite(), nom);
-                    } else {
-                        if (racine.getNodeGauche() != null) {
-                            rechercherNom(racine.getNodeGauche(), nom);
-                        }
+                    fichierBinaireRecupere.seek((position*TAILLE_OCTETS_STAGIAIRE)+POSITION_ID_NODE_DROITE);
+                    int nodeDroite = fichierBinaireRecupere.readInt();
+                    if (nodeDroite > 0){
+                        rechercherNom(nom, nodeDroite);
                     }
+                }
+             } else {
+                fichierBinaireRecupere.seek((position*TAILLE_OCTETS_STAGIAIRE)+POSITION_ID_NODE_DROITE);
+                int nodeDroite = fichierBinaireRecupere.readInt();
+                if (nodeDroite > 0){
+                    rechercherNom(nom, nodeDroite);
+                } else {
+                    fichierBinaireRecupere.seek((position*TAILLE_OCTETS_STAGIAIRE)+POSITION_ID_NODE_GAUCHE);
+                    int nodeGauche = fichierBinaireRecupere.readInt();
+                    rechercherNom(nom, nodeGauche);
                 }
             }
         }
-        return recherche;
+        fichierBinaireRecupere.close();
+    }
+
+
+
+    public static void rechercherNom(String nom) throws IOException {
+        rechercherNom(nom, 1);
+    }
+
+    public static Stagiaire recupererStagiaireFichierBinaire(int position, RandomAccessFile fichierBinaireRecupere) throws IOException {
+        Stagiaire stagiaire = new Stagiaire();
+        fichierBinaireRecupere.seek(position);
+        stagiaire.setNomStagiaire(recupererDonnee(TAILLE_NOM, fichierBinaireRecupere));
+        stagiaire.setPrenomStagiaire(recupererDonnee(TAILLE_PRENOM, fichierBinaireRecupere));
+        stagiaire.setDepartementStagiare(recupererDonnee(TAILLE_DEPARTAMENT, fichierBinaireRecupere));
+        stagiaire.setPromoStagiaire(recupererDonnee(TAILLE_PROMO, fichierBinaireRecupere));
+        stagiaire.setAnneePromoStagiaire(fichierBinaireRecupere.readInt());
+
+        return stagiaire;
+    }
+
+    public static String recupererDonnee(int tailleElement, RandomAccessFile recupBinaire) throws IOException{
+        String donnee = "";
+        for (int x = 0; x < tailleElement; x++) { donnee += recupBinaire.readChar(); }
+        return donnee;
     }
 
     public static int getNombreStagiaires() {
@@ -150,5 +168,6 @@ public class FichierBinaireDAO implements AnnuaireGlobalVariables {
     public static RandomAccessFile getFichierBinaireRecupere() {
         return fichierBinaireRecupere;
     }
+
 
 }

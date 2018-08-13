@@ -153,37 +153,6 @@ public class Arbre implements AnnuaireGlobalVariables {
         return node;
     }
 
-   /* public  Node rechercherNom(Node racine, String nom) {
-        System.out.println(racine.getStagiaire().toString()+" Nom reçu: "+nom);
-        Node recherche = new Node();
-        if (racine != null) {
-            if (nom.compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) == 0) {
-                recherche = racine;
-                System.out.println("Aqui estoy");
-            } else {
-                if (nom.compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) < 0) {
-                    if (racine.getNodeGauche() != null) {
-                        rechercherNom(racine.getNodeGauche(), nom);
-                    } else {
-                        if (racine.getNodeDroite() != null) {
-                            rechercherNom(racine.getNodeDroite(), nom);
-                        }
-                    }
-                } else {
-                    if (racine.getNodeDroite() != null) {
-                        rechercherNom(racine.getNodeDroite(), nom);
-                    } else {
-                        if (racine.getNodeGauche() != null) {
-                            rechercherNom(racine.getNodeGauche(), nom);
-                        }
-                    }
-                }
-            }
-        }
-        return recherche;
-    }*/
-
-
     @Override
     public String toString() {
         return "Arbre [racine=" + racine + "]";

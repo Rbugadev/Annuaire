@@ -14,12 +14,13 @@ public class ArbreDAO implements AnnuaireGlobalVariables {
 
     private static String contenu;
     private static Arbre arbre = new Arbre();
+    private static RandomAccessFile recupBinaire;
 
     public static void creationArbre() throws IOException {
 
         try {
             RandomAccessFile recupBinaire = new RandomAccessFile(fichierBinaire, "rw");
-            int nombreStagiaires = (int) recupBinaire.length() / TAILLE_OCTETS_STAGIAIRE;
+            int nombreStagiaires = nombreStagiaires(recupBinaire);
             int compteur = 1;
             for (int x = 0; x < nombreStagiaires; x++) {
                 Stagiaire stagiaire = new Stagiaire();
@@ -115,5 +116,12 @@ public class ArbreDAO implements AnnuaireGlobalVariables {
             str += " ";
         }
         return str;
+    }
+
+    public static int nombreStagiaires(RandomAccessFile recupBinaire) throws IOException {
+        int nombreStagiaires=0;
+        nombreStagiaires = (int) recupBinaire.length() / TAILLE_OCTETS_STAGIAIRE;
+
+        return nombreStagiaires;
     }
 }
