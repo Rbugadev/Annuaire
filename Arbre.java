@@ -9,23 +9,24 @@ import java.util.List;
 public class Arbre implements AnnuaireGlobalVariables {
 
     private Node racine;
-    List<Node> listaNodesStagiaires = new ArrayList<Node>();
+    private List<Node> listeNodesdansArbre = new ArrayList<>();
 
     public Arbre() {
+        racine =null;
     }
 
     public void ajouterNode(Node node, Node racine) {
         if (racine == null) {
             this.setRacine(node);
         } else {
-            if (node.getStagiaire().getNomStagiaire().compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) <= 0) {
+            if (node.getStagiaire().getNomStagiaire().compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) < 0) {
                 if (racine.getNodeGauche() == null) {
                     racine.setNodeGauche(node);
                     node.setNodePere(racine);
                 } else {
                     ajouterNode(node, racine.getNodeGauche());
                 }
-            } else {
+            } else if (node.getStagiaire().getNomStagiaire().compareToIgnoreCase(racine.getStagiaire().getNomStagiaire()) >= 0){
                 if (racine.getNodeDroite() == null) {
                     racine.setNodeDroite(node);
                     node.setNodePere(racine);
@@ -34,6 +35,19 @@ public class Arbre implements AnnuaireGlobalVariables {
                 }
             }
         }
+    }
+
+    public List<Node> getListeNodesArbre(Node racine){
+        if (racine!=null){
+            listeNodesdansArbre.add(racine);
+            if (racine.getNodeGauche()!=null){
+                getListeNodesArbre(racine.getNodeGauche());
+            }
+            if (racine.getNodeDroite()!=null){
+                getListeNodesArbre(racine.getNodeDroite());
+            }
+        }
+        return listeNodesdansArbre;
     }
 
     public void ajouterNode(Node node) throws IOException {
@@ -53,19 +67,19 @@ public class Arbre implements AnnuaireGlobalVariables {
     public void afficherArbre(Node racine) {
         if (racine != null) {
             afficherArbre(racine.getNodeGauche());
-            System.out.print(racine.getStagiaire().getNomStagiaire() + "\t" + racine.getNodeId());
+            System.out.print(racine.getStagiaire().getNomStagiaire() + "\t ID: " + racine.getNodeId());
             if (racine.getNodePere() != null) {
-                System.out.print("\t" + racine.getNodePere().getNodeId());
+                System.out.print("\t Id Pere: " + racine.getNodePere().getNodeId());
             } else {
                 System.out.print("\t");
             }
             if (racine.getNodeGauche() != null) {
-                System.out.print("\t" + racine.getNodeGauche().getNodeId());
+                System.out.print("\t Id Gauche: " + racine.getNodeGauche().getNodeId());
             } else {
                 System.out.print("\t");
             }
             if (racine.getNodeDroite() != null) {
-                System.out.println("\t" + racine.getNodeDroite().getNodeId());
+                System.out.println("\t Id Droite : " + racine.getNodeDroite().getNodeId());
             } else {
                 System.out.println("\t");
             }
@@ -77,7 +91,7 @@ public class Arbre implements AnnuaireGlobalVariables {
         afficherArbre(this.getRacine());
     }
 
-    public static boolean supprimerNode(Node node) {
+   /* public static boolean supprimerNode(Node node) {
         boolean existeNodeDroite = node.getNodeDroite() != null;
         boolean existeNodeGauche = node.getNodeGauche() != null;
 
@@ -152,22 +166,11 @@ public class Arbre implements AnnuaireGlobalVariables {
         }
         return node;
     }
-
+*/
     @Override
     public String toString() {
         return "Arbre [racine=" + racine + "]";
     }
-
-
-    public List<Node> getListaNodesStagiaires() {
-        return listaNodesStagiaires;
-    }
-
-    public void setListaNodesStagiaires(List<Node> listaNodesStagiaires) {
-        this.listaNodesStagiaires = listaNodesStagiaires;
-    }
-
-    private Node recherche = null;
 
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FichierExterneDAO implements AnnuaireGlobalVariables {
 
-    private static List<Stagiaire> listeStagiaires = new ArrayList<>();
+    private static List<Stagiaire> listeStagiairesFichierExterne = new ArrayList<>();
 
 
     // Méthode pour lire le fichier texte externe et creer un liste avec les donneées reçus
@@ -49,7 +49,7 @@ public class FichierExterneDAO implements AnnuaireGlobalVariables {
                             break;
                     }
                 }
-                listeStagiaires.add(stagiaire);
+                listeStagiairesFichierExterne.add(stagiaire);
             }
 
             fichierEntree.close();
@@ -58,14 +58,16 @@ public class FichierExterneDAO implements AnnuaireGlobalVariables {
         }
     }
 
-    public static void afficherListeStagiaires(List<Stagiaire> liste) {
+    //Méthode pour afficher la liste recuperée depuis le fichier texte
+    public static void afficherListeExterneStagiaires(List<Stagiaire> liste) {
         for (Stagiaire stagiaire : liste) {
             System.out.println(stagiaire.toString());
         }
     }
 
-    public static List<Stagiaire> getListeStagiaires() {
-        return listeStagiaires;
+    // Méthode pour recuperer la liste crée depuis le fichier externe
+    public static List<Stagiaire> getListeStagiairesFichierExterne() {
+        return listeStagiairesFichierExterne;
     }
 
 }

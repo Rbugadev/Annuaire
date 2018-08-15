@@ -65,9 +65,9 @@ public class Stagiaire {
 
     @Override
     public String toString() {
-        return "Nom = " + nomStagiaire + ",\t Prenom = " + prenomStagiaire
-                + ", \tDpto = " + departementStagiare + ", \tPromo = " + promoStagiaire
-                + ", \tAnnée = " + anneePromoStagiaire;
+        return "Nom = " + nomStagiaire + "\t Prenom = " + prenomStagiaire
+                + "\tDpto = " + departementStagiare + "\tPromo = " + promoStagiaire
+                + "\tAnnée = " + anneePromoStagiaire;
     }
 
 

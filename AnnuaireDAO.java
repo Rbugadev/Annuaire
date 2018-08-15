@@ -15,7 +15,7 @@ public class AnnuaireDAO implements AnnuaireGlobalVariables {
 
         FichierExterneDAO fichierTexteExterne = new FichierExterneDAO();
         FichierExterneDAO.lireFichierTexteExterne();
-        liste = FichierExterneDAO.getListeStagiaires();
+        liste = FichierExterneDAO.getListeStagiairesFichierExterne();
 
         FichierBinaireDAO fb = new FichierBinaireDAO();
         try {

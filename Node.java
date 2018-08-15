@@ -23,7 +23,11 @@ public class Node {
     }
 
     public Node() {
-        stagiaire = null;
+        this.stagiaire = null;
+        this.nodeId =-1;
+        this.nodePere = null;
+        this.nodeGauche = null;
+        this.nodeDroite = null;
     }
 
     public Node(Stagiaire stagiaire) {
@@ -70,7 +74,11 @@ public class Node {
         this.nodeId = idNode;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "IdNode = "+nodeId+" "+stagiaire.toString() +
+                ", nodePere = " + nodePere.getNodeId() +
+                ", nodeGauche = " + nodeGauche.getNodeId() +
+                ", nodeDroite = " + nodeDroite.getNodeId();
+    }
 }
